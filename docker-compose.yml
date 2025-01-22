@@ -5,4 +5,4 @@ services:
     ports:
       - 8000:80
     volumes:
-      - C:/Users/PC/Desktop/cours/docker:/usr/share/nginx/html
+      - C:/Users/PC/Desktop/cours/Projet_DevAppWeb:/usr/share/nginx/html
