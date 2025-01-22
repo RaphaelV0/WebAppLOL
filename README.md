@@ -43,4 +43,4 @@ Durant la **semaine 1**, nous avons travaillé sur la conception et la préparat
     - Conteneur pour l’API (Sails.js).
     - Conteneur pour MySQL.
   - Test des conteneurs avec `docker-compose up`.
-![Schéma relationnel du projet](MCD.png]
+![Schéma relationnel du projet](MCD.png)
