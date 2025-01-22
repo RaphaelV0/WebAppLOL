@@ -28,5 +28,20 @@ services:
     depends_on:
       - db
 
+  sails:
+    build: .
+    ports:
+      - "1337:1337"
+    volumes:
+      - ./path/to/sails/app:/usr/src/app
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USER=user
+      - DB_PASSWORD=password
+      - DB_NAME=mydatabase
+    depends_on:
+      - db
+
 volumes:
   db_data:
