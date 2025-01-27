@@ -44,7 +44,7 @@ Ce projet est une application web permettant de découvrir les personnages de Le
 - Début de la création de la maquette du site web sur **Figma**.
 
 #### Maquette du site web
-![Maquette du site web](assets/smaquetteV1.png)
+![Maquette du site web](assets/MaquetteV1.png)
 
 ## 📝 À venir
 
