@@ -1,47 +1,57 @@
 services:
-  web:
-    image: nginx:latest
-    ports:
-      - "8000:80"
-    volumes:
-      - C:/Users/PC/Desktop/cours/Projet_DevAppWeb:/usr/share/nginx/html
-
-  db:
-    image: mysql:latest
+  # Base de données MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_container
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: mydatabase
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: league_db
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     ports:
       - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
 
+  # phpMyAdmin pour gérer la base de données
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin:latest
+    container_name: phpmyadmin_container
+    restart: always
     environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root
     ports:
-      - "8080:80"  # Accédez à phpMyAdmin via http://localhost:8080
-    depends_on:
-      - db
+      - "8080:80"
 
-  sails:
-    build: .
+  # Backend Sails.js
+  sails_api:
+    build:
+      context: ./api # Chemin du dossier contenant le backend
+      dockerfile: Dockerfile
+    container_name: sails_api
     ports:
       - "1337:1337"
     volumes:
-      - ./path/to/sails/app:/usr/src/app
-    environment:
-      - DB_HOST=db
-      - DB_PORT=3306
-      - DB_USER=user
-      - DB_PASSWORD=password
-      - DB_NAME=mydatabase
+      - ./api:/usr/src/app
+      - /usr/src/app/node_modules
     depends_on:
-      - db
+      - mysql
+
+  # Frontend Vue.js
+  vue_client:
+    build:
+      context: ./client # Chemin du dossier contenant le frontend Vue.js
+      dockerfile: Dockerfile
+    container_name: vue_client
+    ports:
+      - "3000:80" # Vue.js sera accessible via le port 3000
+    volumes:
+      - ./client:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - sails_api
 
 volumes:
-  db_data:
+  mysql_data:

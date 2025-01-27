@@ -1,0 +1,13 @@
+{
+    "name": "sails-api",
+    "version": "1.0.0",
+    "description": "Une API Sails.js pour afficher les champions LoL",
+    "main": "app.js",
+    "scripts": {
+      "start": "sails lift"
+    },
+    "dependencies": {
+      "sails": "^1.5.3"
+    }
+  }
+  
