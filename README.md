@@ -35,12 +35,21 @@ Ce projet est une application web permettant de découvrir les personnages de Le
 - **MySQL** comme base de données.
 
 ### 2. Conception de la base de données
-- La structure de la base de données a été définie. La mise en place réelle sera effectuée lors des prochaines étapes.
+- La structure de la base de données a été définie et mise en place. Cette base de données permet de stocker les informations des champions de *League of Legends*, telles que les statistiques, les sorts, les skins, et plus encore.
 
 #### Schéma de la base de données
 ![Schéma de la base de données](assets/MCD.png)
 
-### 3. Maquette du site web
+### 3. Récupération des données via l'API Riot
+- Récupération des informations des champions (nom, titre, histoire, etc.) depuis l'API de Riot Games.
+- Pour chaque champion, récupération des données détaillées (passifs, skins, statistiques, sorts, etc.).
+- Insertion des données dans la base de données MySQL pour chaque champion, incluant :
+  - Description du champion.
+  - Passifs et sorts associés avec leurs statistiques.
+  - Skins, y compris l'image du skin par défaut et les autres skins disponibles.
+  - Statistiques du champion (points de vie, mana, armure, etc.).
+
+### 4. Maquette du site web
 - Début de la création de la maquette du site web sur **Figma**.
 
 #### Maquette du site web
@@ -48,6 +57,34 @@ Ce projet est une application web permettant de découvrir les personnages de Le
 
 ## 📝 À venir
 
-- Finaliser la création de la base de données.
+- Finaliser la création de la base de données avec toutes les données supplémentaires comme les astuces et les relations entre champions.
+- Ajouter la fonctionnalité pour interagir avec les données via l'interface utilisateur (choix du champion, ajustement des niveaux, etc.).
 - Continuer à développer la maquette du site et la fonctionnalité de l'application.
+- Implémenter la gestion dynamique des tags et de leur association avec les sorts.
 
+---
+
+## **Changements récents dans le projet**
+
+### **Mise en place de la récupération des données API Riot**
+Une nouvelle fonctionnalité a été ajoutée pour récupérer les données des champions, de leurs skins, sorts, passifs, et plus encore depuis l'API Riot de *League of Legends*. Cela inclut également l'insertion automatique de ces données dans la base de données MySQL.
+
+---
+
+## **Problèmes connus / Points à améliorer**
+- **Astuces** : Les astuces des champions ne sont pas récupérées pour l'instant. Il faudra les ajouter dans une prochaine étape.
+- **Tags et Tag_Sorts** : La gestion des tags et leur association avec les sorts n'a pas encore été implémentée. Cela nécessitera de récupérer et associer les tags automatiquement.
+
+---
+
+### **Captures d'écran / Résultats attendus**
+
+N/A (Aucune interface utilisateur n'est modifiée pour le moment, il s'agit d'un travail côté backend et base de données).
+
+---
+
+## **Commentaires supplémentaires**
+
+Cette mise à jour de l'application ajoute un backend robuste capable de récupérer des données en temps réel depuis l'API de Riot et de les stocker dans une base de données relationnelle. La prochaine étape consiste à finaliser l'interface utilisateur pour permettre une interaction fluide avec les données récupérées.
+
+---
