@@ -38,7 +38,7 @@ Ce projet est une application web permettant de découvrir les personnages de Le
 - La structure de la base de données a été définie et mise en place. Cette base de données permet de stocker les informations des champions de *League of Legends*, telles que les statistiques, les sorts, les skins, et plus encore.
 
 #### Schéma de la base de données
-![Schéma de la base de données](assets/MCD.png)
+![Schéma de la base de données](assets/MCD2.png)
 
 ### 3. Récupération des données via l'API Riot
 - Récupération des informations des champions (nom, titre, histoire, etc.) depuis l'API de Riot Games.
