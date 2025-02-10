@@ -11,8 +11,4 @@
 module.exports.routes = {
   'GET /champions': 'ChampionController.find',
   'GET /champions/:id': 'ChampionController.findOne',
-  'PUT /champions/:id': 'ChampionController.update',
-
-  'GET /passifs': 'PassifController.find',
-  'GET /passifs/:id': 'PassifController.findOne',
 };

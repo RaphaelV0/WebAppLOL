@@ -33,8 +33,13 @@ module.exports.datastores = {
   ***************************************************************************/
 
   default: {
-    adapter: 'sails-mysql',
-    url: 'mysql://root:root@localhost:3306/league_db',
+    default: {
+      adapter: 'sails-mysql',
+      host: 'localhost',
+      user: 'root', // L'utilisateur MySQL
+      password: 'root', // Le mot de passe
+      database: 'league_db', // Le nom de la base
+    },
 
     /***************************************************************************
     *                                                                          *

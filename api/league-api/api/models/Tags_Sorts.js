@@ -1,14 +1,12 @@
 /**
- * Passif.js
+ * Tags_Sorts.js
  *
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 module.exports = {
   attributes: {
-    champion: { model: 'champions', required: true },
-    nom: { type: 'string', required: true },
-    description: { type: 'string' },
-    image: { type: 'string' }
+    sort: { model: 'sorts', required: true },
+    tag: { model: 'tags', required: true }
   }
 };
