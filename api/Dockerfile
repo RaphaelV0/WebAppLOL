@@ -1,20 +1,20 @@
-# Utiliser une image Node.js officielle
+# Utiliser une image officielle de Node.js comme base
 FROM node:18
 
-# Définir le répertoire de travail
+# Créer et définir le répertoire de travail
 WORKDIR /usr/src/app
 
-# Copier les fichiers package.json pour installer les dépendances
+# Copier les fichiers package.json et package-lock.json dans le conteneur
 COPY package*.json ./
 
-# Installer les dépendances
+# Installer les dépendances du projet
 RUN npm install
 
-# Copier le reste des fichiers de l'application
+# Copier tous les fichiers du projet dans le conteneur
 COPY . .
 
-# Exposer le port sur lequel Sails.js va tourner
+# Exposer le port 1337 pour l'application Sails
 EXPOSE 1337
 
-# Démarrer le serveur Sails.js
+# Démarrer l'application Sails
 CMD ["npm", "start"]
