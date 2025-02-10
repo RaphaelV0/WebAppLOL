@@ -66,14 +66,15 @@ Ce projet est une application web permettant de découvrir les personnages de Le
 
 ## **Changements récents dans le projet**
 
-### **Mise en place de la récupération des données API Riot**
-Une nouvelle fonctionnalité a été ajoutée pour récupérer les données des champions, de leurs skins, sorts, passifs, et plus encore depuis l'API Riot de *League of Legends*. Cela inclut également l'insertion automatique de ces données dans la base de données MySQL.
+### **Mise en place des modèles pour l'API LeagueDB**
+Une nouvelle fonctionnalité a été ajoutée pour structurer les modèles nécessaires à la gestion des champions, de leurs skins, sorts, passifs, statistiques et relations. Cela inclut également la configuration de la base de données MySQL et des migrations initiales.
 
 ---
 
 ## **Problèmes connus / Points à améliorer**
 - **Astuces** : Les astuces des champions ne sont pas récupérées pour l'instant. Il faudra les ajouter dans une prochaine étape.
 - **Tags et Tag_Sorts** : La gestion des tags et leur association avec les sorts n'a pas encore été implémentée. Cela nécessitera de récupérer et associer les tags automatiquement.
+- **Implémentation des contrôleurs et routes** : Actuellement, seuls les modèles sont en place. Les contrôleurs et routes doivent encore être développés pour permettre l’interaction avec les données.
 
 ---
 
@@ -85,6 +86,6 @@ N/A (Aucune interface utilisateur n'est modifiée pour le moment, il s'agit d'un
 
 ## **Commentaires supplémentaires**
 
-Cette mise à jour de l'application ajoute un backend robuste capable de récupérer des données en temps réel depuis l'API de Riot et de les stocker dans une base de données relationnelle. La prochaine étape consiste à finaliser l'interface utilisateur pour permettre une interaction fluide avec les données récupérées.
+Cette mise à jour de l'application ajoute un backend robuste capable de structurer et stocker les données essentielles des champions de *League of Legends* dans une base de données relationnelle. Les prochaines étapes incluent l'ajout des **routes et contrôleurs**, ainsi que l'intégration de tests unitaires pour assurer la stabilité du backend.
 
 ---
