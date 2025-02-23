@@ -1,20 +1,19 @@
 module.exports = {
   attributes: {
-    champion_id: { model: 'champion', required: true },
+    champion: { model: 'champions', required: true }, // Correction de champion_id
     touche: { type: 'string', required: true },
     nom: { type: 'string', required: true },
     description: { type: 'string' },
     type_cout: { type: 'string' },
     ressource: { type: 'string' },
 
-    // Relation
+    // Relation avec Sorts_Stats
     stats: {
-      collection: 'sortstat',
-      via: 'sort_id'
+      collection: 'sorts_stats', // Correction du nom du modèle
+      via: 'sort'
     }
-  
   },
-  // Options de migration pour développement
+
   datastore: 'default',
-  migrate: 'alter'  // Modifie la table si nécessaire
+  migrate: 'alter'
 };

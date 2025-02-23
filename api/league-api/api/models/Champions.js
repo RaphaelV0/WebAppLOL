@@ -10,29 +10,20 @@ module.exports = {
 
     // Relations
     passifs: {
-      collection: 'passif',
-      via: 'champion_id',
+      collection: 'passifs', // Correction du nom du modèle
+      via: 'champion'
     },
     skins: {
-      collection: 'skin',
-      via: 'champion_id',
+      collection: 'skins', // Correction du nom du modèle
+      via: 'champion'
     },
     statistiques: {
-      model: 'statistique',
-      via: 'champion_id',
+      model: 'statistiques', // Correction du nom du modèle
     },
     sorts: {
-      collection: 'sort',
-      via: 'champion_id',
+      collection: 'sorts', // Correction du nom du modèle
+      via: 'champion'
     },
-    astuces: {
-      collection: 'astuce',
-      via: 'champion_id',
-    },
-    relations: {
-      collection: 'relationchampion',
-      via: 'champion1_id',
-    }
   },
 
   // Options de migration (développement uniquement)
