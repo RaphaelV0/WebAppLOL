@@ -1,14 +1,18 @@
-/**
- * Route Mappings
- * (sails.config.routes)
- *
- * Your routes tell Sails what to do each time it receives a request.
- *
- * For more information on configuring custom routes, check out:
- * https://sailsjs.com/anatomy/config/routes-js
- */
-
 module.exports.routes = {
-  'GET /champions': 'ChampionController.find',
-  'GET /champions/:id': 'ChampionController.findOne',
+  // 📌 Récupérer tous les champions
+  'GET /champions': 'ChampionController.getAll',
+
+  // 📌 Rechercher un champion par nom
+  'GET /champions/search': 'ChampionController.searchByName',
+
+  // 📌 Détails complets d’un champion
+  'GET /champions/:id': 'ChampionController.getChampion',
+
+  // 📌 Passifs
+  'GET /champions/:id/passifs': 'PassifController.getChampionPassifs',
+  'GET /passifs/:id': 'PassifController.getPassifById',
+
+  // 📌 Skins
+  'GET /champions/:id/skins': 'SkinController.getChampionSkins',
+  'GET /skins/:id': 'SkinController.getSkinById',
 };
