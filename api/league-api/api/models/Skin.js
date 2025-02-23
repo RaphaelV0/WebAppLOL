@@ -1,16 +1,18 @@
-/**
- * Skin.js
- *
- * @description :: A model definition represents a database table/collection.
- * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
- */
-
 module.exports = {
   attributes: {
-    champion: { model: 'champions', required: true },
+    champion_id: { model: 'champion', required: true },
     skin_id: { type: 'number', required: true, unique: true },
     nom: { type: 'string', required: true },
     chromas: { type: 'boolean', defaultsTo: false },
-    image: { type: 'string' }
-  }
+    image: { type: 'string' },
+
+    // Relation
+    champion: {
+      model: 'champion',
+      via: 'skins'
+    }
+  },
+  // Options pour la migration en mode développement
+  datastore: 'default',
+  migrate: 'alter'  // Modifie la table si nécessaire
 };

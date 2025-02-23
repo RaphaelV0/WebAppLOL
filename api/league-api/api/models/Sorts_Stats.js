@@ -1,15 +1,18 @@
-/**
- * Sorts_Stats.js
- *
- * @description :: A model definition represents a database table/collection.
- * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
- */
 module.exports = {
   attributes: {
-    sort: { model: 'sorts', required: true },
+    sort_id: { model: 'sort', required: true },
     niveau: { type: 'number', required: true },
     temps_rechargement: { type: 'number' },
     cout: { type: 'number' },
-    portee: { type: 'number' }
-  }
+    portee: { type: 'number' },
+
+    // Relation
+    sort: {
+      model: 'sort',
+      via: 'stats'
+    },
+  },
+  // Options de migration
+  datastore: 'default',
+  migrate: 'alter'  // Modifie la table si nécessaire
 };

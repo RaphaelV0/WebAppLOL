@@ -28,7 +28,7 @@ services:
   # Backend Sails.js
   sails_api:
     build:
-      context: ./api/league_db # Chemin du dossier contenant le backend
+      context: ./api/league-api # Chemin du dossier contenant le backend
       dockerfile: Dockerfile
     container_name: sails_api
     ports:
