@@ -1,6 +1,6 @@
 module.exports = {
   attributes: {
-    champion_id: { model: 'champion', required: true },
+    champion: { model: 'champions', required: true }, // Correction de champion_id
     pv: { type: 'number' },
     pv_par_niveau: { type: 'number' },
     mana: { type: 'number' },
@@ -13,16 +13,9 @@ module.exports = {
     degats_attaque: { type: 'number' },
     degats_attaque_par_niveau: { type: 'number' },
     vitesse_attaque: { type: 'number' },
-    vitesse_attaque_par_niveau: { type: 'number' },
-
-    // Relation
-    champion: {
-      model: 'champion',
-      via: 'statistiques'
-    }
+    vitesse_attaque_par_niveau: { type: 'number' }
   },
 
-  // Options pour la migration
   datastore: 'default',
-  migrate: 'alter'  // Modifie la table si nécessaire
+  migrate: 'alter'
 };
