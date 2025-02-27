@@ -1,57 +1,58 @@
 services:
-  # Base de données MySQL
   mysql:
     image: mysql:8.0
-    container_name: mysql_container
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: league_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-    ports:
-      - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - ./db/champions_db.sql:/docker-entrypoint-initdb.d/champions_db.sql
+    networks:
+      - mynetwork
 
-  # phpMyAdmin pour gérer la base de données
   phpmyadmin:
-    image: phpmyadmin:latest
-    container_name: phpmyadmin_container
-    restart: always
+    image: phpmyadmin/phpmyadmin
     environment:
       PMA_HOST: mysql
+      PMA_PORT: 3306
       MYSQL_ROOT_PASSWORD: root
     ports:
-      - "8080:80"
+      - "8081:80"
+    networks:
+      - mynetwork
 
-  # Backend Sails.js
-  sails_api:
-    build:
-      context: ./api/league-api # Chemin du dossier contenant le backend
-      dockerfile: Dockerfile
-    container_name: sails_api
-    ports:
-      - "1337:1337"
-    volumes:
-      - ./api:/usr/src/app
-      - /usr/src/app/node_modules
+  db_loader:
+    build: ./db_loader
     depends_on:
-      - mysql
+      - mysql  # Assure-toi que db_loader dépend de mysql
+    networks:
+      - mynetwork
+    restart: "no"
 
-  # Frontend Vue.js
-  vue_client:
-    build:
-      context: ./client # Chemin du dossier contenant le frontend Vue.js
-      dockerfile: Dockerfile
-    container_name: vue_client
-    ports:
-      - "3000:80" # Vue.js sera accessible via le port 3000
-    volumes:
-      - ./client:/usr/src/app
-      - /usr/src/app/node_modules
+  league_api:
+    build: ./league_api
     depends_on:
-      - sails_api
+      - mysql  # Assure-toi que league_api dépend de mysql
+      - db_loader  # Assure-toi que league_api dépend de db_loader
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: league_db
+    ports:
+      - "3000:3000"
+    networks:
+      - mynetwork
+    restart: on-failure
+    # Wait-for-it pour garantir que db_loader a bien terminé avant de lancer l'API
+    command: ["./wait-for-it.sh", "db_loader:3000", "--", "node", "api.js"]
 
-volumes:
-  mysql_data:
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:8080"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
