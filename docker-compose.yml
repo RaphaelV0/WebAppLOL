@@ -43,8 +43,6 @@ services:
     networks:
       - mynetwork
     restart: on-failure
-    # Wait-for-it pour garantir que db_loader a bien terminé avant de lancer l'API
-    command: ["./wait-for-it.sh", "db_loader:3000", "--", "node", "api.js"]
 
   frontend:
     build: ./frontend

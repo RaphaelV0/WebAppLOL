@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const championController = require('../controllers/championController');
+const statistiqueController = require('../controllers/statistiqueController');
 
 /**
  * @swagger
- * /champions:
+ * /statistiques:
  *   get:
- *     summary: "Récupérer tous les champions"
- *     description: "Cette route permet de récupérer tous les champions avec pagination, filtrage, recherche et tri."
+ *     summary: "Récupérer toutes les statistiques"
+ *     description: "Cette route permet de récupérer toutes les statistiques avec pagination, recherche et tri."
  *     responses:
  *       200:
- *         description: "Une liste de champions"
+ *         description: "Une liste de statistiques"
  *         content:
  *           application/json:
  *             schema:
@@ -22,7 +22,7 @@ const championController = require('../controllers/championController');
  *                     type: integer
  *                   name:
  *                     type: string
- *                   role:
+ *                   value:
  *                     type: string
  *       500:
  *         description: "Erreur serveur interne"
@@ -41,47 +41,49 @@ const championController = require('../controllers/championController');
  *         type: integer
  *     - in: query
  *       name: search
- *       description: "Critères de recherche pour filtrer les champions"
+ *       description: "Critères de recherche pour filtrer les statistiques"
  *       required: false
  *       schema:
  *         type: string
  */
 
-router.get('/', championController.getAllChampions);
+router.get('/', statistiqueController.getAllStatistiques);
 
 /**
  * @swagger
- * /champions/{id}:
+ * /statistiques/champion/{championId}:
  *   get:
- *     summary: "Récupérer un champion par son ID"
- *     description: "Cette route permet de récupérer un champion spécifique en utilisant son ID."
+ *     summary: "Récupérer les statistiques d’un champion spécifique"
+ *     description: "Cette route permet de récupérer les statistiques d’un champion spécifique."
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: championId
  *         description: "ID du champion"
  *         required: true
  *         schema:
  *           type: integer
  *     responses:
  *       200:
- *         description: "Le champion trouvé"
+ *         description: "Liste des statistiques du champion"
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                 name:
- *                   type: string
- *                 role:
- *                   type: string
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   name:
+ *                     type: string
+ *                   value:
+ *                     type: string
  *       404:
- *         description: "Champion non trouvé"
+ *         description: "Statistiques non trouvées"
  *       500:
  *         description: "Erreur serveur interne"
  */
 
-router.get('/:id', championController.getChampionById);
+router.get('/champion/:championId', statistiqueController.getStatistiquesByChampionId);
 
 module.exports = router;
