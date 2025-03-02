@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const championController = require('../controllers/championController');
+const passifController = require('../controllers/passifController');
 
 /**
  * @swagger
- * /champions:
+ * /passifs:
  *   get:
- *     summary: "Récupérer tous les champions"
- *     description: "Cette route permet de récupérer tous les champions avec pagination, filtrage, recherche et tri."
+ *     summary: "Récupérer tous les passifs"
+ *     description: "Cette route permet de récupérer tous les passifs avec pagination, recherche et tri."
  *     responses:
  *       200:
- *         description: "Une liste de champions"
+ *         description: "Une liste de passifs"
  *         content:
  *           application/json:
  *             schema:
@@ -22,7 +22,7 @@ const championController = require('../controllers/championController');
  *                     type: integer
  *                   name:
  *                     type: string
- *                   role:
+ *                   description:
  *                     type: string
  *       500:
  *         description: "Erreur serveur interne"
@@ -41,30 +41,30 @@ const championController = require('../controllers/championController');
  *         type: integer
  *     - in: query
  *       name: search
- *       description: "Critères de recherche pour filtrer les champions"
+ *       description: "Critères de recherche pour filtrer les passifs"
  *       required: false
  *       schema:
  *         type: string
  */
 
-router.get('/', championController.getAllChampions);
+router.get('/', passifController.getAllPassifs);
 
 /**
  * @swagger
- * /champions/{id}:
+ * /passifs/champion/{championId}:
  *   get:
- *     summary: "Récupérer un champion par son ID"
- *     description: "Cette route permet de récupérer un champion spécifique en utilisant son ID."
+ *     summary: "Récupérer le passif d’un champion spécifique"
+ *     description: "Cette route permet de récupérer le passif d'un champion spécifique en fonction de son ID."
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: championId
  *         description: "ID du champion"
  *         required: true
  *         schema:
  *           type: integer
  *     responses:
  *       200:
- *         description: "Le champion trouvé"
+ *         description: "Le passif trouvé"
  *         content:
  *           application/json:
  *             schema:
@@ -74,14 +74,14 @@ router.get('/', championController.getAllChampions);
  *                   type: integer
  *                 name:
  *                   type: string
- *                 role:
+ *                 description:
  *                   type: string
  *       404:
- *         description: "Champion non trouvé"
+ *         description: "Passif non trouvé"
  *       500:
  *         description: "Erreur serveur interne"
  */
 
-router.get('/:id', championController.getChampionById);
+router.get('/champion/:championId', passifController.getPassifByChampionId);
 
 module.exports = router;
