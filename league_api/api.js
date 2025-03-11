@@ -14,7 +14,9 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:8080', // L'adresse de votre frontend
+}));
 app.use(express.json());
 
 // Définir la configuration Swagger
