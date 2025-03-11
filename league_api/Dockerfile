@@ -1,26 +1,20 @@
-# Utilisation de l'image Node.js officielle
 FROM node:16
 
 # Créer et définir le répertoire de travail dans le conteneur
 WORKDIR /usr/src/app
 
-# Installer wget et netcat (pour utiliser nc dans wait-for-it.sh)
-RUN apt-get update && apt-get install -y wget netcat
+# Installer netcat pour vérifier la connexion à MySQL
+RUN apt-get update && apt-get install -y netcat
 
-# Télécharger wait-for-it.sh
-RUN wget https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh && chmod +x wait-for-it.sh
-
-# Copier le package.json et package-lock.json (si disponible) dans le conteneur
-COPY package*.json ./ 
-
-# Installer les dépendances
+# Copier le package.json et installer les dépendances
+COPY package*.json ./
 RUN npm install
 
-# Copier tout le code source dans le conteneur
+# Copier tout le code source
 COPY . .
 
-# Exposer le port sur lequel ton API écoute
+# Exposer le port de l'API
 EXPOSE 3000
 
-# Commande par défaut pour attendre que db_loader soit prêt avant de démarrer l'API
-CMD ./wait-for-it.sh db_loader:3000 --timeout=90 --strict -- node api.js
+# Attendre que MySQL soit prêt avant de démarrer
+CMD ["sh", "-c", "until nc -z -v -w30 mysql 3306; do echo '⏳ Waiting for MySQL...'; sleep 5; done && echo '✅ MySQL is ready! Starting API...' && node api.js"]

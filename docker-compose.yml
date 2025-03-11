@@ -31,8 +31,8 @@ services:
   league_api:
     build: ./league_api
     depends_on:
-      - mysql  # Assure-toi que league_api dépend de mysql
-      - db_loader  # Assure-toi que league_api dépend de db_loader
+      db_loader:
+        condition: service_completed_successfully  # Démarrer après db_loader
     environment:
       DB_HOST: mysql
       DB_USER: root
