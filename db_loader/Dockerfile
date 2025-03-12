@@ -18,4 +18,4 @@ COPY wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
 
 # Commande de démarrage
-CMD ["/wait-for-it.sh"]
+CMD ["/bin/sh", "-c", "/wait-for-it.sh mysql:3306 -- node app.js"]

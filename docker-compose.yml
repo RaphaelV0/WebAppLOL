@@ -46,6 +46,8 @@ services:
 
   frontend:
     build: ./frontend
+    depends_on:
+      - league_api
     ports:
       - "8080:8080"
     networks:

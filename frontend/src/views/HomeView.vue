@@ -14,7 +14,7 @@
   </template>
   
   <script>
-  import axios from "axios";
+  import axios from "@/services/api";
   import SearchBar from "@/components/SearchBar.vue";
   import ChampionCard from "@/components/ChampionCard.vue";
   

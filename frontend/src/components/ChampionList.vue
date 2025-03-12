@@ -1,27 +1,24 @@
-<template>
-    <div>
-      <h2>{{ title }}</h2>
-      <div class="champion-grid">
-        <ChampionCard v-for="champion in champions" :key="champion.id" :champion="champion" />
-      </div>
-    </div>
-  </template>
-  
-  <script>
-  import ChampionCard from '@/components/ChampionCard.vue';
-  
-  export default {
-    props: ['champions', 'title'],
-    components: { ChampionCard }
-  };
-  </script>
-  
-  <style scoped>
-  .champion-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-  }
-  </style>
-  
+<script>
+import axios from '@/axios'; // Importer l'instance axios
+
+export default {
+  data() {
+    return {
+      champions: [],
+    };
+  },
+  mounted() {
+    this.getChampions();
+  },
+  methods: {
+    async getChampions() {
+      try {
+        const response = await axios.get('/champions');
+        this.champions = response.data;
+      } catch (error) {
+        console.error('Erreur lors de la récupération des champions:', error);
+      }
+    },
+  },
+};
+</script>
