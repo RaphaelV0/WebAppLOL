@@ -1,5 +1,5 @@
-# Dockerfile pour frontend (Vue.js)
-FROM node:16
+# Étape 1 : Construction de l'application Vue.js
+FROM node:16 AS builder
 
 # Créer et définir le répertoire de travail dans le conteneur
 WORKDIR /usr/src/app
@@ -7,8 +7,8 @@ WORKDIR /usr/src/app
 # Copier package.json et package-lock.json (si disponible)
 COPY package*.json ./
 
-# Installer les dépendances
-RUN npm install
+# Installer les dépendances avec npm ci pour des installations reproductibles
+RUN npm ci
 
 # Copier tout le code source dans le conteneur
 COPY . .
@@ -16,11 +16,11 @@ COPY . .
 # Construire l'application Vue.js
 RUN npm run build
 
-# Utiliser un serveur léger pour servir les fichiers statiques (par exemple, nginx)
+# Étape 2 : Servir l'application avec Nginx
 FROM nginx:alpine
 
-# Copier les fichiers buildés dans le répertoire public d'Nginx
-COPY --from=0 /usr/src/app/dist /usr/share/nginx/html
+# Copier les fichiers construits depuis l'étape de build dans le répertoire public d'Nginx
+COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
 
 # Exposer le port 80 pour le serveur
 EXPOSE 80
