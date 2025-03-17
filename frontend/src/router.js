@@ -1,18 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from './views/HomeView.vue';  // Exemple de vue d'accueil
-import ChampionView from './views/ChampionView.vue';  // Vue pour les champions
+import HomeView from './views/HomeView.vue';
+import ChampionView from './views/ChampionView.vue';
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView,  // Affiche la vue d'accueil
+    component: HomeView
   },
   {
     path: '/champion/:id',
     name: 'champion',
-    component: ChampionView,  // Affiche la vue d'un champion spécifique
-    props: true,  // Cela permet de passer le paramètre id comme prop à ChampionView
+    component: ChampionView,
+    props: true
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/home'
   }
 ];
 
