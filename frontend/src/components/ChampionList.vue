@@ -1,5 +1,5 @@
 <script>
-import axios from '@/axios'; // Importer l'instance axios
+import axios from 'axios'; // Importer l'instance axios
 
 export default {
   data() {

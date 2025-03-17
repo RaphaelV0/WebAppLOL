@@ -7,6 +7,9 @@ WORKDIR /usr/src/app
 # Copier package.json et package-lock.json (si disponible)
 COPY package*.json ./
 
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+
 # Installer les dépendances avec npm ci pour des installations reproductibles
 RUN npm ci
 
