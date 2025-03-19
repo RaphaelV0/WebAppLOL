@@ -1,15 +1,7 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+  <router-view></router-view>
 </template>
 
-<script setup>
-import { RouterView } from 'vue-router';
-</script>
-
-<style>
-#app {
-  text-align: center;
-}
+<style scoped>
+/* Style global pour l'application */
 </style>

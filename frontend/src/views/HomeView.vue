@@ -1,22 +1,21 @@
 <template>
-  <div class="home-container">
-    <h1>Bienvenue sur l'App League</h1>
+  <div class="home">
     <SearchBar />
   </div>
 </template>
 
 <script setup>
-import SearchBar from '../components/SearchBar.vue';
+import SearchBar from '@/components/SearchBar.vue';
 </script>
 
 <style scoped>
-.home-container {
+.home {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* Pour centrer verticalement */
-  background: linear-gradient(to bottom, #3498db, #2c3e50); /* Un joli dégradé */
+  min-height: 100vh;
   color: white;
+  background-color: #333; /* Ajout d'une couleur de fond sombre */
 }
 </style>

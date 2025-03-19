@@ -1,103 +1,158 @@
 <template>
-  <div v-if="champion" class="champion-page">
-    <!-- Section gauche : Informations du champion -->
-    <div class="left-section">
-      <h1 class="champion-name">{{ champion.nom }}</h1>
-      <span class="champion-title">{{ champion.titre }}</span>
-      <p class="champion-description">{{ champion.histoire }}</p>
+  <div v-if="champion" class="champion-details">
+    <h1>{{ champion.name }}</h1>
+    <p class="role">{{ champion.role }}</p>
 
-      <!-- Statistiques -->
-      <div class="stats">
-        <h2>Statistiques</h2>
-        <ul>
-          <li>HP : {{ statistiques.pv }} + {{ statistiques.pv_par_niveau }}</li>
-          <li>Mana : {{ statistiques.mana }} + {{ statistiques.mana_par_niveau }}</li>
-          <li>Vitesse de déplacement : {{ statistiques.vitesse_deplacement }}</li>
-          <li>Armure : {{ statistiques.armure }} + {{ statistiques.armure_par_niveau }}</li>
-          <li>Résistance Magique : {{ statistiques.resistance_magique }} + {{ statistiques.resistance_magique_par_niveau }}</li>
-          <li>Portée d'attaque : {{ statistiques.portee_attaque }}</li>
-          <li>Régénération PV : {{ statistiques.regen_pv }} + {{ statistiques.regen_pv_par_niveau }}</li>
-          <li>Dégâts d'attaque : {{ statistiques.degats_attaque }} + {{ statistiques.degats_attaque_par_niveau }}</li>
-          <li>Vitesse d'attaque : {{ statistiques.vitesse_attaque }} + {{ statistiques.vitesse_attaque_par_niveau }}</li>
-        </ul>
+    <!-- Image du champion -->
+    <img :src="champion.imageUrl" alt="Image du champion" class="champion-image" />
+
+    <div class="statistics">
+      <h2>Statistiques</h2>
+      <div v-for="stat in statistiques" :key="stat.id" class="stat-row">
+        <span>{{ stat.name }}:</span>
+        <span>{{ stat.value }}</span>
       </div>
     </div>
 
-    <!-- Section centrale : Image principale du champion -->
-    <div class="center-section">
-      <img :src="skins[0].image" alt="Champion Image" class="main-image" />
+    <h2>Sorts</h2>
+    <ul class="sorts">
+      <li v-for="sort in sorts" :key="sort.id" class="sort-item">
+        {{ sort.name }}
+        <!-- Image du sort -->
+        <img :src="sort.imageUrl" alt="Image du sort" class="sort-image" />
+      </li>
+    </ul>
+
+    <h2>Skins</h2>
+    <div class="skins">
+      <div v-for="skin in skins" :key="skin.id" class="skin-item">
+        {{ skin.name }}
+        <!-- Image du skin -->
+        <img :src="skin.imageUrl" alt="Image du skin" class="skin-image" />
+      </div>
     </div>
 
-    <!-- Section droite : Compétences et skins -->
-    <div class="right-section">
-      <!-- Compétences -->
-      <div class="skills">
-        <h2>Compétences</h2>
-        <div class="skills-icons">
-          <img v-for="(sort, index) in sorts" :key="index" :src="sort.image" alt="Skill Icon" />
-        </div>
-        <!-- Compétence passive actuelle -->
-        <div class="current-skill">
-          <img :src="passif.image" alt="Passive Icon" />
-          <span>{{ passif.nom }}</span>
-        </div>
-      </div>
-
-      <!-- Skins -->
-      <div class="skins">
-        <h2>Skins</h2>
-        <div class="skins-carousel">
-          <img v-for="(skin, index) in skins" :key="index" :src="skin.image" alt="Skin Image" />
-        </div>
-      </div>
+    <h2>Passif</h2>
+    <div v-if="passif" class="passif">
+      <h3>{{ passif.name }}</h3>
+      <p>{{ passif.description }}</p>
+      <!-- Image du passif -->
+      <img :src="passif.imageUrl" alt="Image du passif" class="passif-image" />
+    </div>
+    <div v-else>
+      <p>Passif non trouvé.</p>
     </div>
   </div>
-  <div v-else>Chargement...</div>
+  <div v-else>
+    <p>Champion non trouvé.</p>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import api from '@/services/api';
 
 const route = useRoute();
-const championId = route.params.id;
-
-const apiUrl = import.meta.env.VUE_APP_API_URL;
-
-// Références pour les données
 const champion = ref(null);
-const statistiques = ref({});
-const passif = ref({});
-const sorts = ref([]);
+const statistiques = ref([]);
 const skins = ref([]);
+const sorts = ref([]);
+const passif = ref(null);
 
-const fetchChampionData = async (championId) => {
+onMounted(async () => {
+  const championName = route.params.name;
+
   try {
-    const championResponse = await fetch(`${apiUrl}/champions/${championId}`);
-    const statistiquesResponse = await fetch(`${apiUrl}/statistiques?champion_id=${championId}`);
-    const passifResponse = await fetch(`${apiUrl}/passifs?champion_id=${championId}`);
-    const sortsResponse = await fetch(`${apiUrl}/sorts?champion_id=${championId}`);
-    const skinsResponse = await fetch(`${apiUrl}/skins?champion_id=${championId}`);
+    const championResponse = await api.searchChampions(championName);
+    if (championResponse.data.length > 0) {
+      // Assurez-vous que l'objet champion contient l'URL de l'image
+      champion.value = championResponse.data[0];
+      const championId = champion.value.id;
 
-    if (!championResponse.ok || !statistiquesResponse.ok || !passifResponse.ok || !sortsResponse.ok || !skinsResponse.ok) {
-      throw new Error("Erreur lors de la récupération des données");
+      const statistiquesResponse = await api.getStatistiquesByChampionId(championId);
+      statistiques.value = statistiquesResponse.data;
+
+      const skinsResponse = await api.getSkinsByChampionId(championId);
+      skins.value = skinsResponse.data;
+
+      const sortsResponse = await api.getSortsByChampionId(championId);
+      sorts.value = sortsResponse.data;
+
+      const passifResponse = await api.getPassifByChampionId(championId);
+      passif.value = passifResponse.data;
+
+      // Log pour vérifier si les URLs des images sont bien présentes
+      console.log('Champion data:', champion.value);
+      console.log('Sorts data:', sorts.value);
+      console.log('Skins data:', skins.value);
+      console.log('Passif data:', passif.value);
+
+    } else {
+      champion.value = null;
     }
-
-    champion.value = await championResponse.json();
-    statistiques.value = (await statistiquesResponse.json())[0];
-    passif.value = (await passifResponse.json())[0];
-    sorts.value = await sortsResponse.json();
-    skins.value = await skinsResponse.json();
   } catch (error) {
-    console.error(error.message);
+    console.error('Erreur lors de la récupération des données du champion:', error);
+    champion.value = null;
   }
-};
-
-onMounted(() => {
-  fetchChampionData(championId);
 });
 </script>
 
 <style scoped>
-/* Styles CSS */
+.champion-details {
+  color: #fff;
+  padding: 20px;
+  background-color: #444;
+}
+
+.champion-image {
+  max-width: 300px;
+  margin-bottom: 20px;
+}
+
+.statistics {
+  margin-top: 20px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.sorts,
+.skins {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sort-item {
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.sort-image {
+  width: 50px; /* Ajustez la taille selon vos besoins */
+  margin-left: 10px;
+}
+
+.skins {
+  display: flex;
+  overflow-x: auto; /* Pour permettre le scroll horizontal si nécessaire */
+}
+
+.skin-item {
+  margin-right: 10px;
+}
+
+.skin-image {
+  width: 100px; /* Ajustez la taille selon vos besoins */
+}
+
+.passif-image {
+  max-width: 100px;
+}
 </style>
