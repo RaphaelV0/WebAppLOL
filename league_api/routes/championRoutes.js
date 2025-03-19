@@ -51,6 +51,42 @@ router.get('/', championController.getAllChampions);
 
 /**
  * @swagger
+ * /champions/search:
+ *   get:
+ *     summary: "Rechercher des champions par nom"
+ *     description: "Cette route permet de rechercher des champions par leur nom."
+ *     parameters:
+ *       - in: query
+ *         name: nom
+ *         description: "Nom du champion à rechercher"
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: "Une liste de champions correspondant à la recherche"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   name:
+ *                     type: string
+ *                   role:
+ *                     type: string
+ *       404:
+ *         description: "Aucun champion trouvé"
+ *       500:
+ *         description: "Erreur serveur interne"
+ */
+router.get('/search', championController.searchChampions);
+
+/**
+ * @swagger
  * /champions/{id}:
  *   get:
  *     summary: "Récupérer un champion par son ID"

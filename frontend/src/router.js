@@ -9,7 +9,7 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/champion/:id',
+    path: '/champions/:id',
     name: 'champion',
     component: ChampionView,
     props: true

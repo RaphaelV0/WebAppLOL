@@ -18,6 +18,11 @@ const Champion = {
 
   getById: (id, callback) => {
     db.query('SELECT * FROM Champions WHERE id = ?', [id], callback);
+  },
+
+  searchByNom: (nom, callback) => {
+    const query = 'SELECT * FROM Champions WHERE nom LIKE ?';
+    db.query(query, [`%${nom}%`], callback);
   }
 };
 

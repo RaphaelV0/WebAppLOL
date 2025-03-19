@@ -52,6 +52,9 @@ services:
       - "8080:80"
     networks:
       - mynetwork
+    environment:
+      - VUE_APP_API_URL=${VUE_APP_API_URL_DOCKER}
+
 
 networks:
   mynetwork:
