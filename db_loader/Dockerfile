@@ -13,9 +13,4 @@ RUN npm install
 # Copier le reste du code source
 COPY . .
 
-# Ajouter le script d'attente
-COPY wait-for-it.sh /wait-for-it.sh
-RUN chmod +x /wait-for-it.sh
-
-# Commande de démarrage
-CMD ["/bin/sh", "-c", "/wait-for-it.sh mysql:3306 -- node app.js"]
+CMD [ "app.js" ]

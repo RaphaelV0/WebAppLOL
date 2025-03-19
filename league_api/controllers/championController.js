@@ -51,3 +51,25 @@ exports.getChampionById = (req, res) => {
     res.json(results[0]);
   });
 };
+
+// Rechercher des champions par nom
+exports.searchChampions = (req, res) => {
+  const { nom } = req.query;
+
+  if (!nom) {
+    return res.status(400).json({ message: 'Le paramètre "nom" est requis.' });
+  }
+
+  Champion.searchByNom(nom, (err, results) => {
+    if (err) {
+      console.error('Erreur lors de la recherche des champions:', err);
+      return res.status(500).json({ message: "Erreur serveur", error: err.message });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: "Aucun champion trouvé avec ce nom." });
+    }
+
+    res.json(results);
+  });
+};

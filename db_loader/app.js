@@ -17,7 +17,7 @@ const connection = mysql.createConnection({
 const API_URL_CHAMPIONS = 'https://ddragon.leagueoflegends.com/cdn/15.2.1/data/fr_FR/champion.json';
 
 // Fonction pour vérifier si la connexion à MySQL fonctionne
-async function waitForDBConnection(retries = 5, delay = 5000) {
+async function waitForDBConnection(retries = 10, delay = 5000) {
     for (let i = 0; i < retries; i++) {
         try {
             // Test de la connexion MySQL
