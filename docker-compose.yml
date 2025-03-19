@@ -53,7 +53,7 @@ services:
     networks:
       - mynetwork
     environment:
-      - VUE_APP_API_URL=${VUE_APP_API_URL_DOCKER}
+      - VUE_APP_API_URL=http://league_api:3000
 
 
 networks:
