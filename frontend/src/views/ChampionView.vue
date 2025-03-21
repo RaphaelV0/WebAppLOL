@@ -32,12 +32,8 @@
     </ul>
 
     <h2>Skins</h2>
-    <div class="skins">
-      <div v-for="skin in skins" :key="skin.id" class="skin-item">
-        {{ skin.nom }}
-        <img :src="skin.image" alt="Image du skin" class="skin-image" />
-      </div>
-    </div>
+    <SkinCarousel :skins="skins" v-if="skins && skins.length > 0" />
+    <p v-else>Aucun skin disponible</p>
 
     <h2>Passif</h2>
     <div v-if="passif" class="passif">
@@ -58,10 +54,11 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import api from '@/services/api';
+import SkinCarousel from '@/components/SkinCarousel.vue'; // Importez le composant
 
 const route = useRoute();
 const champion = ref(null);
-const statistiques = ref(null); // Initialiser à null
+const statistiques = ref(null);
 const skins = ref([]);
 const sorts = ref([]);
 const passif = ref(null);
@@ -70,27 +67,22 @@ onMounted(async () => {
   const championName = route.params.name;
 
   try {
-    // 1. Récupérer les informations du champion
     const championResponse = await api.searchChampions(championName);
     if (championResponse.data && championResponse.data.length > 0) {
       champion.value = championResponse.data[0];
       const championId = champion.value.id;
 
-      // 2. Récupérer les statistiques du champion
       const statsResponse = await api.getStatistiquesByChampionId(championId);
       if (statsResponse.data && statsResponse.data.length > 0) {
-        statistiques.value = statsResponse.data[0]; // Prendre le premier élément du tableau
+        statistiques.value = statsResponse.data[0];
       }
 
-      // 3. Récupérer les sorts du champion
       const sortsResponse = await api.getSortsByChampionId(championId);
       sorts.value = sortsResponse.data;
 
-      // 4. Récupérer les skins du champion
       const skinsResponse = await api.getSkinsByChampionId(championId);
       skins.value = skinsResponse.data;
 
-      // 5. Récupérer le passif du champion
       const passifResponse = await api.getPassifByChampionId(championId);
       passif.value = passifResponse.data;
 
@@ -109,62 +101,3 @@ onMounted(async () => {
   }
 });
 </script>
-
-<style scoped>
-.champion-details {
-  color: #fff;
-  padding: 20px;
-  background-color: #444;
-}
-
-.champion-image {
-  max-width: 300px;
-  margin-bottom: 20px;
-}
-
-.statistics {
-  margin-top: 20px;
-}
-
-.stat-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
-}
-
-.sorts,
-.skins {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.sort-item {
-  margin-bottom: 5px;
-  display: flex;
-  align-items: center;
-}
-
-.sort-image {
-  width: 50px; /* Ajustez la taille selon vos besoins */
-  margin-left: 10px;
-}
-
-.skins {
-  display: flex;
-  overflow-x: auto; /* Pour permettre le scroll horizontal si nécessaire */
-}
-
-.skin-item {
-  margin-right: 10px;
-}
-
-.skin-image {
-  width: 100px; /* Ajustez la taille selon vos besoins */
-}
-
-.passif-image {
-  max-width: 100px;
-}
-</style>
