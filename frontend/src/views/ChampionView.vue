@@ -4,32 +4,16 @@
     <p class="role">{{ champion.roles }}</p>
 
     <!-- Image du champion -->
-    <img :src="champion.imageUrl" alt="Image du champion" class="champion-image" />
+    <img :src="defaultSkinImage" alt="Image du champion" class="champion-image" v-if="defaultSkinImage" />
+    <p v-else>Image non disponible</p>
 
-    <div class="statistics">
-      <h2>Statistiques</h2>
-      <div class="stat-row">
-        <span>PV:</span>
-        <span>{{ champion.pv }}</span>
-      </div>
-      <div class="stat-row">
-        <span>Mana:</span>
-        <span>{{ champion.mana }}</span>
-      </div>
-      <div class="stat-row">
-        <span>Armure:</span>
-        <span>{{ champion.armure }}</span>
-      </div>
-      <!-- Ajoutez les autres statistiques ici -->
-    </div>
+    <!-- Composant Statistiques -->
+    <ChampionStatistiques v-if="statistiques" :statistiques="statistiques" />
+    <p v-else>Statistiques non disponibles</p>
 
-    <h2>Sorts</h2>
-    <ul class="sorts">
-      <li v-for="sort in sorts" :key="sort.id" class="sort-item">
-        {{ sort.nom }}
-        <img :src="sort.image" alt="Image du sort" class="sort-image" />
-      </li>
-    </ul>
+    <!-- Composant Sorts -->
+    <ChampionSorts v-if="sorts" :sorts="sorts" />
+    <p v-else>Sorts non disponibles</p>
 
     <h2>Skins</h2>
     <SkinCarousel :skins="skins" v-if="skins && skins.length > 0" />
@@ -39,7 +23,8 @@
     <div v-if="passif" class="passif">
       <h3>{{ passif.nom }}</h3>
       <p>{{ passif.description }}</p>
-      <img :src="passif.image" alt="Image du passif" class="passif-image" />
+      <img :src="getImageUrl(passif.image)" alt="Image du passif" class="passif-image" v-if="passif.image" />
+      <p v-else>Image non disponible</p>
     </div>
     <div v-else>
       <p>Passif non trouvé.</p>
@@ -54,7 +39,9 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import api from '@/services/api';
-import SkinCarousel from '@/components/SkinCarousel.vue'; // Importez le composant
+import SkinCarousel from '@/components/SkinCarousel.vue';
+import ChampionStatistiques from '@/components/ChampionStatistiques.vue';
+import ChampionSorts from '@/components/ChampionSorts.vue';
 
 const route = useRoute();
 const champion = ref(null);
@@ -62,6 +49,12 @@ const statistiques = ref(null);
 const skins = ref([]);
 const sorts = ref([]);
 const passif = ref(null);
+const defaultSkinImage = ref(null); // Variable pour stocker l'image du skin par défaut
+
+const getImageUrl = (path) => {
+  if (!path) return null;
+  return path.startsWith('http') ? path : `https://ddragon.leagueoflegends.com/cdn/img/spell/${path}`;
+};
 
 onMounted(async () => {
   const championName = route.params.name;
@@ -82,6 +75,10 @@ onMounted(async () => {
 
       const skinsResponse = await api.getSkinsByChampionId(championId);
       skins.value = skinsResponse.data;
+
+      // Filtrer le skin par défaut
+      const defaultSkin = skins.value.find(skin => skin.nom === 'default');
+            defaultSkinImage.value = defaultSkin ? defaultSkin.image : null;
 
       const passifResponse = await api.getPassifByChampionId(championId);
       passif.value = passifResponse.data;
