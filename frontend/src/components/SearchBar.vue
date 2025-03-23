@@ -1,5 +1,8 @@
 <template>
   <div class="search-bar">
+    <div class="search-icon">
+      <img src="@/assets/search_icon.png" alt="Search" />
+    </div>
     <input
       type="text"
       v-model="searchQuery"
@@ -28,10 +31,20 @@ const goToChampion = () => {
 .search-bar {
   display: flex;
   align-items: center;
-  /* Style pour correspondre à la maquette (fond, bordures, etc.) */
   background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 20px;
-  padding: 5px;
+  border-radius: 50px; /* Bords arrondis */
+  padding: 8px 16px;
+  border: 2px solid #9f00ff; /* Bordure violette */
+  width: 400px; /* Ajuster la largeur */
+}
+
+.search-icon {
+  margin-right: 8px;
+}
+
+.search-icon img {
+  width: 20px;
+  height: 20px;
 }
 
 input[type="text"] {
@@ -41,14 +54,17 @@ input[type="text"] {
   color: white;
   padding: 8px;
   font-size: 16px;
+  outline: none;
 }
 
 button {
-  background-color: transparent;
+  background-color: #9f00ff; /* Violet */
   border: none;
   color: white;
   cursor: pointer;
   font-size: 20px;
-  padding: 8px;
+  padding: 8px 16px;
+  border-radius: 50%;
+  margin-left: 8px;
 }
 </style>
