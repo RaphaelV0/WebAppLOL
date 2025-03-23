@@ -1,8 +1,7 @@
-
 # League of Legends Web Application
 
 ## Introduction
-Cette application web permet de découvrir les personnages de *League of Legends* avec leurs statistiques, sorts, skins, et plus encore. L'utilisateur peut interagir avec les données des champions, telles que leurs statistiques et ajuster leur niveau pour voir les dégâts dynamiques.
+Cette application web permet de découvrir les personnages de *League of Legends* avec leurs statistiques, sorts, skins et plus encore. L'utilisateur peut interagir avec les données des champions, telles que leurs statistiques et ajuster leur niveau pour voir les dégâts dynamiques.
 
 ## Technologies utilisées
 
@@ -13,7 +12,8 @@ Cette application web permet de découvrir les personnages de *League of Legends
 
 ### Frontend
 - **Framework** : Vue.js
-- **Langage** : JavaScript, HTML, CSS
+- **Langages** : JavaScript, HTML, CSS
+- **Style** : Le CSS est en place pour essayer de ressembler à la maquette, bien que certains éléments soient encore manquants.
 
 ### Infrastructure
 - **Outils** : Docker, Docker Compose
@@ -34,7 +34,9 @@ git clone <url-du-dépôt>
 
 ### 2. Installation des dépendances
 Dans le dossier du projet, exécutez la commande suivante pour installer les dépendances de chaque service (backend et frontend) :
-Attention, il faut exécuter la commande avec une connexion internet qui ne bloque pas la récupération des données des champions depuis l'api de Riot Games.
+
+> **Attention** : Assurez-vous d'avoir une connexion internet qui ne bloque pas la récupération des données des champions depuis l'API de Riot Games.
+
 ```bash
 docker-compose up --build
 ```
@@ -45,25 +47,30 @@ Cela construira et démarrera les services définis dans le fichier `docker-comp
 - Vue.js pour le frontend.
 
 ### 3. Accédez à l'application
-- **Backend** : Accédez à `http://localhost:3000` pour interagir avec l'API.
-- **Frontend** : Accédez à `http://localhost:8080` pour voir l'interface utilisateur du projet.
-
-### 4. Accédez à PhpMyAdmin
-PhpMyAdmin est accessible à `http://localhost:8081` pour gérer la base de données MySQL.
+- **Backend** : `http://localhost:3000` pour interagir avec l'API.
+- **Frontend** : `http://localhost:8080` pour voir l'interface utilisateur du projet.
+- **PhpMyAdmin** : `http://localhost:8081` pour gérer la base de données MySQL.
 
 ## Évolution du projet
 
-### Fonctionnalités en cours :
+### Fonctionnalités en place :
 - **Swagger** a été intégré à l'API pour la documentation interactive.
-- Le backend est en place pour récupérer et stocker les données des champions dans la base de données.
-- Des routes ont été ajoutées pour afficher les champions, leurs statistiques, sorts et skins.
+- Le backend est fonctionnel et récupère les données des champions depuis Riot Games.
+- Les routes pour afficher les champions, leurs statistiques, sorts et skins sont en place.
+- Le **frontend Vue.js** est en place avec un design CSS proche de la maquette.
 
-### Prochaines étapes :
-- Développement de la partie **Frontend Vue.js** pour afficher dynamiquement les données des champions, avec l'ajustement des niveaux et des dégâts des sorts.
-- Intégration des **astuces des champions** et gestion des **tags** associés aux sorts.
-- Implémentation de **routes et contrôleurs** supplémentaires pour une interaction complète avec l'utilisateur.
+### Fonctionnalités en cours et prochaines étapes :
+- Finalisation de certains éléments manquants dans le frontend (tags, astuces des champions, etc.).
+- Développement de l'affichage dynamique des statistiques et des dégâts des sorts.
+- Complétion des données de l'API qui manquent encore certaines informations.
+- Intégration potentielle d'un modèle 3D pour remplacer l'image statique des champions, en utilisant [ce site](https://modelviewer.lol/champions).
+- Ajout futur des **items** pour les personnages, permettant un ajustement dynamique des statistiques.
 
 ## Problèmes connus
 - Les **astuces des champions** ne sont pas encore récupérées.
 - La gestion des **tags** associés aux sorts est à implémenter.
-- Le **frontend** pour l'affichage dynamique des statistiques et des dégâts des sorts sera développé prochainement.
+- L'affichage dynamique des statistiques et des dégâts des sorts n'est pas encore fonctionnel.
+- Certaines données manquent encore dans l'API.
+
+Ce projet est en constante évolution et de nouvelles fonctionnalités seront ajoutées au fur et à mesure ! 🚀
+
