@@ -67,6 +67,7 @@ Cela construira et démarrera les services définis dans le fichier `docker-comp
 - Ajout futur des **items** pour les personnages, permettant un ajustement dynamique des statistiques.
 
 ## Problèmes connus
+- Appuyer sur tab pour rentrer le nom d'un champion à la place de cliquer sur la barre de recherche
 - Les **astuces des champions** ne sont pas encore récupérées.
 - La gestion des **tags** associés aux sorts est à implémenter.
 - L'affichage dynamique des statistiques et des dégâts des sorts n'est pas encore fonctionnel.
