@@ -45,6 +45,12 @@ Cela construira et démarrera les services définis dans le fichier `docker-comp
 - MySQL pour la base de données.
 - Express.js pour l'API backend.
 - Vue.js pour le frontend.
+  
+> **Attention** : Refaire la commande si db_loader est sorti avant d'insérer les données.
+
+```bash
+docker-compose up --build
+```
 
 ### 3. Accédez à l'application
 - **Backend** : `http://localhost:3000` pour interagir avec l'API.
