@@ -1,3 +1,5 @@
+Le code actuel est fonctionnel mais va faire l'objet d'une refactorisation ainsi que de l'ajout de nouvelles fonctionnalités 
+
 # League of Legends Web Application
 
 ## Introduction
